@@ -1,8 +1,14 @@
 <template>
-  <div class="baseBeverage"></div>
+  <div class="baseBeverage" :style="{ backgroundColor: baseColor }"></div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { storeToRefs } from 'pinia';
+import { useBeverageStore } from '../stores/beverage';
+const beverage = useBeverageStore();
+const { selectedBaseObj } = storeToRefs(beverage);
+const baseColor = selectedBaseObj.value?.color || '#c6c6c6';
+</script>
 
 <style scoped>
 .baseBeverage {

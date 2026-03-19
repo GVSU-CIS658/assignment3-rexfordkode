@@ -1,15 +1,15 @@
 <template>
   <Mug>
-    <Cold v-if="isIced" />
+    <Cold v-if="beverage.currentTemp === 'Cold'" />
     <Hot v-else />
     <Contents>
-      <template v-slot:top>
-        <Creamer />
+      <template #top>
+        <Creamer v-if="(!isNoCreamer && isNoSyrup) || (!isNoCreamer && !isNoSyrup)" />
       </template>
-      <template v-slot:mid>
-        <Syrup />
+      <template #mid>
+        <Syrup v-if="!isNoSyrup && !isNoCreamer" />
       </template>
-      <template v-slot:bottom>
+      <template #bottom>
         <Base />
       </template>
     </Contents>
@@ -24,8 +24,16 @@ import Creamer from "./Creamer.vue";
 import Hot from "./Hot.vue";
 import Cold from "./Cold.vue";
 
-type Props = {
-  isIced: boolean;
-};
-defineProps<Props>();
+import { computed } from "vue";
+import { useBeverageStore } from "../stores/beverage";
+
+const beverage = useBeverageStore();
+
+const isNoCreamer = computed(() =>
+  !beverage.selectedCreamer || beverage.selectedCreamer.toLowerCase().includes("no cream")
+);
+const isNoSyrup = computed(() =>
+  !beverage.selectedSyrup || beverage.selectedSyrup.toLowerCase().includes("no syrup")
+);
+
 </script>

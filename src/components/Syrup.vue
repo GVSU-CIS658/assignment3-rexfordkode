@@ -1,8 +1,14 @@
 <template>
-  <div class="syrup"></div>
+  <div class="syrup" :style="{ backgroundColor: syrupColor }"></div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { storeToRefs } from 'pinia';
+import { useBeverageStore } from '../stores/beverage';
+const beverage = useBeverageStore();
+const { selectedSyrupObj } = storeToRefs(beverage);
+const syrupColor = selectedSyrupObj.value?.color || '#c6c6c6';
+</script>
 <style lang="scss" scoped>
 .syrup {
   transform: translateY(400%);

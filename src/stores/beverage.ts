@@ -40,10 +40,10 @@ export const useBeverageStore = defineStore("beverage", () => {
   ];
 
   // State for selections
-  const currentTemp = ref(temps[0]);
-  const selectedBase = ref(bases[0].name);
-  const selectedCreamer = ref(creamers[0].name);
-  const selectedSyrup = ref(syrups[0].name);
+  const currentTemp = ref(temps[1]);
+  const selectedBase = ref(bases[1].name);
+  const selectedCreamer = ref(creamers[3].name);
+  const selectedSyrup = ref(syrups[3].name);
 
   // Getters for selected objects
   const selectedBaseObj = computed(() =>
