@@ -1,91 +1,72 @@
-import { ref, Ref } from "vue";
+import { ref, computed } from "vue";
+import { defineStore } from "pinia";
 
-interface BaseBeverageType {
+export interface BaseBeverageType {
   id: string;
   name: string;
   color: string;
 }
 
-interface CreamerType {
+export interface CreamerType {
   id: string;
   name: string;
   color: string;
 }
 
-interface SyrupType {
+export interface SyrupType {
   id: string;
   name: string;
   color: string;
 }
 
-const temps: Ref<string[]> = ref(["Hot", "Cold"]);
+export const useBeverageStore = defineStore("beverage", () => {
+  const temps = ["Hot", "Cold"];
+  const bases: BaseBeverageType[] = [
+    { id: "b1", name: "Black Tea", color: "#8B4513" },
+    { id: "b2", name: "Green Tea", color: "#C8E6C9" },
+    { id: "b3", name: "Coffee", color: "#6F4E37" },
+  ];
+  const creamers: CreamerType[] = [
+    { id: "c1", name: "No Cream", color: "transparent" },
+    { id: "c2", name: "Milk", color: "AliceBlue" },
+    { id: "c3", name: "Cream", color: "#F5F5DC" },
+    { id: "c4", name: "Half & Half", color: "#FFFACD" },
+  ];
+  const syrups: SyrupType[] = [
+    { id: "s1", name: "No Syrup", color: "#c6c6c6" },
+    { id: "s2", name: "Vanilla", color: "#FFEFD5" },
+    { id: "s3", name: "Caramel", color: "#DAA520" },
+    { id: "s4", name: "Hazelnut", color: "#6B4423" },
+  ];
 
-const bases: Ref<BaseBeverageType[]> = ref([
-  {
-    id: "b1",
-    name: "Black Tea",
-    color: "#8B4513",
-  },
-  {
-    id: "b2",
-    name: "Green Tea",
-    color: "#C8E6C9",
-  },
-  {
-    id: "b3",
-    name: "Coffee",
-    color: "#6F4E37",
-  },
-]);
+  // State for selections
+  const currentTemp = ref(temps[0]);
+  const selectedBase = ref(bases[0].name);
+  const selectedCreamer = ref(creamers[0].name);
+  const selectedSyrup = ref(syrups[0].name);
 
-const creamers: Ref<CreamerType[]> = ref([
-  {
-    id: "c1",
-    name: "No Cream",
-    color: "transparent",
-  },
-  {
-    id: "c2",
-    name: "Milk",
-    color: "AliceBlue",
-  },
-  {
-    id: "c3",
-    name: "Cream",
-    color: "#F5F5DC",
-  },
-  {
-    id: "c4",
-    name: "Half & Half",
-    color: "#FFFACD",
-  },
-]);
+  // Getters for selected objects
+  const selectedBaseObj = computed(() =>
+    bases.find((b) => b.name === selectedBase.value),
+  );
+  const selectedCreamerObj = computed(() =>
+    creamers.find((c) => c.name === selectedCreamer.value),
+  );
+  const selectedSyrupObj = computed(() =>
+    syrups.find((s) => s.name === selectedSyrup.value),
+  );
 
-const syrups: Ref<SyrupType[]> = ref([
-  {
-    id: "s1",
-    name: "No Syrup",
-    color: "#c6c6c6",
-  },
-  {
-    id: "s2",
-    name: "Vanilla",
-    color: "#FFEFD5",
-  },
-  {
-    id: "s3",
-    name: "Caramel",
-    color: "#DAA520",
-  },
-  {
-    id: "s4",
-    name: "Hazelnut",
-    color: "#6B4423",
-  },
-]);
-
-const currentTemp = ref(temps.value[1]);
-
-export type { BaseBeverageType, CreamerType, SyrupType };
-export { temps, bases, creamers, syrups };
-export { currentTemp };
+  return {
+    temps,
+    bases,
+    creamers,
+    syrups,
+    currentTemp,
+    selectedBase,
+    selectedCreamer,
+    selectedSyrup,
+    selectedBaseObj,
+    selectedCreamerObj,
+    selectedSyrupObj,
+  };
+});
