@@ -3,11 +3,13 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
 import { useBeverageStore } from '../stores/beverage';
-const beverage = useBeverageStore();
-const { selectedSyrupObj } = storeToRefs(beverage);
-const syrupColor = selectedSyrupObj.value?.color || '#c6c6c6';
+const store = useBeverageStore();
+const syrupColor = computed(() => {
+  const selected = store.syrups.find(s => s.name === store.selectedSyrup);
+  return selected ? selected.color : '#c6c6c6';
+});
 </script>
 <style lang="scss" scoped>
 .syrup {

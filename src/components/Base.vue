@@ -3,11 +3,13 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
 import { useBeverageStore } from '../stores/beverage';
-const beverage = useBeverageStore();
-const { selectedBaseObj } = storeToRefs(beverage);
-const baseColor = selectedBaseObj.value?.color || '#c6c6c6';
+const store = useBeverageStore();
+const baseColor = computed(() => {
+  const selected = store.bases.find(b => b.name === store.selectedBase);
+  return selected ? selected.color : '#c6c6c6';
+});
 </script>
 
 <style scoped>
